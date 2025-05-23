@@ -5,40 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>جدول امتحانات دبلوم التعليم العام - الفصل الثاني - الدور الأول</title>
     <style>
-        /* التصميم العام */
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, #1e3c72, #2a5298); /* تدرج لوني احترافي */
-            color: #fff;
-            text-align: center;
+        :root {
+            --primary-color: #1e3c72;
+            --secondary-color: #2a5298;
+            --accent-gold: #ffdd57;
+            --accent-green: #4cd137;
+            --accent-red: #ff6b6b;
+            --text-color: #fff;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            
+            --title-size: clamp(2rem, 5vw, 4rem);
+            --subtitle-size: clamp(1.5rem, 3.5vw, 3rem);
+            --text-size: clamp(1.1rem, 2.5vw, 2rem);
+            --countdown-size: clamp(1.5rem, 5vw, 3rem);
+            --logo-size: clamp(100px, 20vw, 200px);
+            --container-width: min(90%, 1400px);
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+        }
+        
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-color);
+            text-align: center;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            line-height: 1.6;
+            padding: 20px;
         }
+        
         .container {
-            background: rgba(255, 255, 255, 0.1); /* خلفية شبه شفافة */
-            padding: 40px;
+            background: var(--glass-bg);
+            padding: var(--container-padding);
             border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow);
             backdrop-filter: blur(10px);
-            max-width: 1200px;
-            width: 90%;
+            width: var(--container-width);
+            margin: 2rem auto;
             animation: fadeIn 1s ease-in-out;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        
         h1 {
-            color: #fff;
-            margin-bottom: 30px;
-            font-size: 36px;
-            font-weight: bold;
+            color: var(--text-color);
+            margin: 1.5rem 0;
+            font-size: var(--title-size);
+            font-weight: 700;
             text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
@@ -46,78 +68,126 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
+        
         .header .logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%; /* جعل الشعار دائريًا */
-            object-fit: cover; /* للحفاظ على نسبة الشعار */
+            width: var(--logo-size);
+            height: var(--logo-size);
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-gold);
         }
+        
         .header .date-time {
             display: flex;
-            gap: 20px;
-            font-size: 24px;
-            font-weight: bold;
+            gap: 1.25rem;
+            font-size: var(--text-size);
+            font-weight: 700;
+            flex-wrap: wrap;
+            justify-content: center;
         }
+        
         .header .date-time .date {
-            color: #ffdd57; /* لون ذهبي */
+            color: var(--accent-gold);
         }
+        
         .header .date-time .time {
-            color: #4cd137; /* لون أخضر */
+            color: var(--accent-green);
         }
 
         .school-name {
-            font-size: 28px;
-            font-weight: bold;
-            color: #ffdd57; /* لون ذهبي */
-            margin-bottom: 30px;
+            font-size: var(--subtitle-size);
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin: 1.5rem 0;
         }
 
         .exam-info {
-            margin-top: 30px;
-            font-size: 24px;
-            color: #fff;
-            animation: slideIn 0.5s ease-in-out;
+            margin: 2rem 0;
+            font-size: var(--text-size);
+            color: var(--text-color);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: right;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+        
+        .exam-info p {
+            margin: 1rem 0;
+        }
+        
+        .exam-info strong {
+            color: var(--accent-gold);
         }
 
         .countdown-container {
+            margin: 3rem 0;
+        }
+        
+        .countdown-container .message {
+            font-size: var(--text-size);
+            color: var(--accent-gold);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .countdown-boxes {
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-        .countdown-container .message {
-            font-size: 24px;
-            color: #ffdd57; /* لون ذهبي */
+        
+        .countdown-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            min-width: 100px;
+            animation: pulse 2s infinite;
         }
-        .countdown {
-            font-size: 48px;
-            color: #ff6b6b; /* لون أحمر */
-            font-weight: bold;
-            animation: pulse 1.5s infinite;
+        
+        .countdown-value {
+            font-size: var(--countdown-size);
+            font-weight: 700;
+            color: var(--accent-red);
         }
+        
+        .countdown-label {
+            font-size: calc(var(--text-size) * 0.8);
+            color: var(--text-color);
+            margin-top: 0.5rem;
+        }
+        
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
 
-        /* تصميم متجاوب */
         @media (max-width: 768px) {
-            h1 { font-size: 28px; }
-            .header .date-time { font-size: 20px; }
-            .countdown { font-size: 36px; }
-            .exam-info { font-size: 20px; }
-            .countdown-container .message { font-size: 20px; }
-            .school-name { font-size: 24px; }
+            .countdown-box {
+                min-width: 80px;
+                padding: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .countdown-box {
+                min-width: 70px;
+                padding: 0.6rem;
+            }
+            
+            .countdown-value {
+                font-size: 1.8rem;
+            }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet"> <!-- خط عربي -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -142,74 +212,71 @@
             <p><strong>المادة:</strong> العلوم الإسلامية (2) </p>
             <p><strong>موعد الاختبار:</strong> يوم الأربعاء بتاريخ 15/6/2025م</p>
             <p><strong>مدة الاختبار:</strong> 3 ساعات</p>
+            <p><strong>وقت البدء:</strong> 8:00 صباحاً</p>
         </div>
 
         <div class="countdown-container">
-            <div class="message" id="message">الوقت المتبقي  :</div>
-            <div id="countdown" class="countdown">
-                <!-- العد التنازلي سيظهر هنا -->
+            <div class="message" id="message">الوقت المتبقي للامتحان:</div>
+            <div class="countdown-boxes" id="countdown">
+                <div class="countdown-box">
+                    <div class="countdown-value" id="days">00</div>
+                    <div class="countdown-label">أيام</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="hours">00</div>
+                    <div class="countdown-label">ساعات</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="minutes">00</div>
+                    <div class="countdown-label">دقائق</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="seconds">00</div>
+                    <div class="countdown-label">ثواني</div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         // تاريخ ووقت الاختبار
-        const examDateTime = new Date(`2025-06-15T08:00:00`); // تاريخ ووقت الاختبار
+        const examDateTime = new Date('2025-06-15T08:00:00');
         const examDuration = 3; // مدة الاختبار بالساعات
 
-        let countdownInterval;
+        function updateCountdown() {
+            const now = new Date();
+            let timeLeft;
+            let message = "الوقت المتبقي للامتحان:";
+            
+            if (now < examDateTime) {
+                // قبل بدء الامتحان
+                timeLeft = examDateTime - now;
+            } else if (now >= examDateTime && now < new Date(examDateTime.getTime() + examDuration * 60 * 60 * 1000)) {
+                // أثناء الامتحان
+                timeLeft = new Date(examDateTime.getTime() + examDuration * 60 * 60 * 1000) - now;
+                message = "الوقت المتبقي لانتهاء الامتحان:";
+            } else {
+                // بعد انتهاء الامتحان
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                document.getElementById('message').textContent = "انتهى وقت الامتحان!";
+                return;
+            }
 
-        function startCountdownToExam() {
-            clearInterval(countdownInterval);
+            // حساب الأيام والساعات والدقائق والثواني
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            const countdownElement = document.getElementById('countdown');
-            const messageElement = document.getElementById('message');
-
-            countdownInterval = setInterval(() => {
-                const now = new Date();
-                const timeLeft = examDateTime - now;
-
-                if (timeLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    startCountdownForExam();
-                    messageElement.innerHTML = "الوقت المتبقي لانتهاء الاختبار:";
-                } else {
-                    const hours = Math.floor(timeLeft / (1000 * 60 * 60));
-                    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-                    countdownElement.innerHTML = `
-                        ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية
-                    `;
-                }
-            }, 1000);
-        }
-
-        function startCountdownForExam() {
-            clearInterval(countdownInterval);
-
-            const countdownElement = document.getElementById('countdown');
-            const messageElement = document.getElementById('message');
-            const endTime = new Date(examDateTime.getTime() + examDuration * 60 * 60 * 1000);
-
-            countdownInterval = setInterval(() => {
-                const now = new Date();
-                const timeLeft = endTime - now;
-
-                if (timeLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    countdownElement.innerHTML = "انتهى وقت الاختبار!";
-                    messageElement.innerHTML = "";
-                } else {
-                    const hours = Math.floor(timeLeft / (1000 * 60 * 60));
-                    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-                    countdownElement.innerHTML = `
-                        ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية
-                    `;
-                }
-            }, 1000);
+            // عرض العد التنازلي
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            document.getElementById('message').textContent = message;
         }
 
         function updateDateTime() {
@@ -223,17 +290,11 @@
             timeElement.textContent = now.toLocaleTimeString('ar-EG');
         }
 
-        // بدء العد التنازلي تلقائيًا
-        const now = new Date();
-        if (now < examDateTime) {
-            startCountdownToExam();
-        } else if (now >= examDateTime && now < new Date(examDateTime.getTime() + examDuration * 60 * 60 * 1000)) {
-            startCountdownForExam();
-        } else {
-            document.getElementById('countdown').innerHTML = "انتهى وقت الاختبار!";
-            document.getElementById('message').innerHTML = "";
-        }
+        // تحديث العد التنازلي كل ثانية
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
 
+        // تحديث التاريخ والوقت الحالي
         setInterval(updateDateTime, 1000);
         updateDateTime();
     </script>
