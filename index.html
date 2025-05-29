@@ -1,352 +1,132 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جدول امتحانات دبلوم التعليم العام</title>
+    <title>جدول الامتحانات</title>
     <style>
-        :root {
-            --primary-color: #1e3c72;
-            --secondary-color: #2a5298;
-            --accent-gold: #ffdd57;
-            --accent-green: #4cd137;
-            --accent-red: #ff6b6b;
-            --text-color: #fff;
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            
-            /* أحجام متغيرة */
-            --title-size: 5vw;
-            --subtitle-size: 4vw;
-            --text-size: 3vw;
-            --countdown-value-size: 7vw;
-            --countdown-label-size: 2.5vw;
-            --logo-size: 15vw;
-            --datetime-size: 3vw;
-        }
-        
-        @media (min-width: 768px) {
-            :root {
-                --title-size: 3.5vw;
-                --subtitle-size: 2.8vw;
-                --text-size: 2vw;
-                --countdown-value-size: 5vw;
-                --countdown-label-size: 1.8vw;
-                --logo-size: 12vw;
-                --datetime-size: 2vw;
-            }
-        }
-        
-        @media (min-width: 1200px) {
-            :root {
-                --title-size: 2.5rem;
-                --subtitle-size: 2rem;
-                --text-size: 1.5rem;
-                --countdown-value-size: 4rem;
-                --countdown-label-size: 1.3rem;
-                --logo-size: 150px;
-                --datetime-size: 1.5rem;
-            }
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-        }
-        
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: var(--text-color);
-            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            height: 100vh;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 1vh;
-            font-size: 16px;
+            overflow: hidden;
         }
         
-        .fullscreen-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            padding: 2vh;
-            overflow: auto;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .message-box {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .message {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        /* تأثير تحميل متحرك */
+        .loading-bar {
+            height: 5px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
             position: relative;
         }
         
-        .header {
-            position: absolute;
-            top: 2vh;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 3vw;
-        }
-        
-        .date-time {
-            font-size: var(--datetime-size);
-            font-weight: bold;
-            color: var(--accent-gold);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            display: flex;
-            gap: 2vw;
-        }
-        
-        .time {
-            color: var(--accent-green);
-        }
-        
-        .logo {
-            width: var(--logo-size);
-            height: var(--logo-size);
-            border-radius: 50%;
-            object-fit: cover;
-            border: 0.4vh solid var(--accent-gold);
-            box-shadow: 0 0 3vh rgba(255, 221, 87, 0.5);
-        }
-        
-        .content {
-            width: 100%;
+        .loading-progress {
             height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding-top: calc(var(--logo-size) + 4vh);
+            width: 0;
+            background: linear-gradient(90deg, #4b6cb7, #182848);
+            border-radius: 3px;
+            animation: loading 3s infinite ease-in-out;
         }
         
-        h1 {
-            font-size: var(--title-size);
-            margin: 1vh 0;
-            color: var(--text-color);
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-            font-weight: bold;
-            padding: 0 5vw;
+        /* تأثير النقاط المتحركة */
+        .dots {
+            display: inline-block;
+            margin-right: 5px;
         }
         
-        .school-name {
-            font-size: var(--subtitle-size);
-            color: var(--accent-gold);
-            margin: 1vh 0;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        .dots span {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4b6cb7;
+            margin: 0 2px;
+            opacity: 0;
         }
         
-        .exam-info {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 2vh 4vw;
-            border-radius: 2vh;
-            margin: 2vh 0;
-            font-size: var(--text-size);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 90%;
-            max-width: 800px;
+        .dots span:nth-child(1) {
+            animation: dotFade 1.5s infinite;
         }
         
-        .exam-info p {
-            margin: 1.5vh 0;
+        .dots span:nth-child(2) {
+            animation: dotFade 1.5s infinite 0.3s;
         }
         
-        .exam-info strong {
-            color: var(--accent-gold);
+        .dots span:nth-child(3) {
+            animation: dotFade 1.5s infinite 0.6s;
         }
         
-        .countdown-container {
-            margin: 2vh 0;
-            width: 100%;
+        /* تأثيرات الحركة */
+        @keyframes loading {
+            0% { width: 0; }
+            50% { width: 100%; }
+            100% { width: 0; }
         }
         
-        .countdown-message {
-            font-size: var(--text-size);
-            color: var(--accent-gold);
-            margin-bottom: 2vh;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        @keyframes dotFade {
+            0%, 100% { opacity: 0; transform: scale(0.7); }
+            50% { opacity: 1; transform: scale(1); }
         }
         
-        .countdown-boxes {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 2vw;
-            width: 100%;
+        /* تأثيرات إضافية للحيوية */
+        .message-box::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(75, 108, 183, 0.1),
+                rgba(24, 40, 72, 0.1)
+            );
+            transform: rotate(30deg);
+            animation: shine 5s infinite linear;
+            z-index: -1;
         }
         
-        .countdown-box {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 1.5vh 3vw;
-            border-radius: 2vh;
-            min-width: 20vw;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.2);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        .countdown-value {
-            font-size: var(--countdown-value-size);
-            font-weight: bold;
-            color: var(--accent-red);
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-            margin-bottom: 1vh;
-        }
-        
-        .countdown-label {
-            font-size: var(--countdown-label-size);
-            color: var(--text-color);
-            font-weight: bold;
-        }
-        
-        @media (max-width: 480px) {
-            :root {
-                --title-size: 6vw;
-                --subtitle-size: 5vw;
-                --countdown-value-size: 8vw;
-            }
-            
-            .countdown-box {
-                min-width: 35vw;
-                padding: 1.5vh 5vw;
-            }
-            
-            .header {
-                padding: 0 5vw;
-            }
+        @keyframes shine {
+            0% { transform: rotate(30deg) translate(-20%, -20%); }
+            100% { transform: rotate(30deg) translate(20%, 20%); }
         }
     </style>
 </head>
 <body>
-
-    <div class="fullscreen-container">
-        <div class="header">
-            <div class="date-time">
-                <div class="time" id="time"></div>
-            </div>
-            <img src="https://d.top4top.io/p_34306lxgi1.jpg" alt="شعار المدرسة" class="logo">
-            <div class="date-time">
-                <div class="date" id="date"></div>
+    <div class="message-box">
+        <div class="message">
+            جاري ضبط جدول امتحانات النقل بمدرسة عمر بن مسعود
+            <div class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
-
-        <div class="content">
-            <h1>جدول امتحانات دبلوم التعليم العام - الفصل الثاني - الدور الأول</h1>
-
-            <div class="school-name">
-                مركز عمر بن مسعود لإمتحانات دبلوم التعليم العام
-            </div>
-
-            <div class="exam-info">
-                <p><strong>المادة:</strong> العلوم الإسلامية (2) </p>
-                <p><strong>موعد الاختبار:</strong> يوم الأربعاء بتاريخ 15/6/2025م</p>
-                <p><strong>مدة الاختبار:</strong> 3 ساعات</p>
-                <p><strong>وقت البدء:</strong> 8:00 صباحاً</p>
-            </div>
-
-            <div class="countdown-container">
-                <div class="countdown-message" id="message">الوقت المتبقي للامتحان:</div>
-                <div class="countdown-boxes" id="countdown">
-                    <div class="countdown-box">
-                        <div class="countdown-value" id="days">00</div>
-                        <div class="countdown-label">أيام</div>
-                    </div>
-                    <div class="countdown-box">
-                        <div class="countdown-value" id="hours">00</div>
-                        <div class="countdown-label">ساعات</div>
-                    </div>
-                    <div class="countdown-box">
-                        <div class="countdown-value" id="minutes">00</div>
-                        <div class="countdown-label">دقائق</div>
-                    </div>
-                    <div class="countdown-box">
-                        <div class="countdown-value" id="seconds">00</div>
-                        <div class="countdown-label">ثواني</div>
-                    </div>
-                </div>
-            </div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
         </div>
     </div>
-
-    <script>
-        // تاريخ ووقت الاختبار
-        const examDateTime = new Date('2025-06-15T08:00:00');
-        const examDuration = 3; // مدة الاختبار بالساعات
-
-        function updateCountdown() {
-            const now = new Date();
-            let timeLeft;
-            let message = "الوقت المتبقي للامتحان:";
-            
-            if (now < examDateTime) {
-                timeLeft = examDateTime - now;
-            } else if (now >= examDateTime && now < new Date(examDateTime.getTime() + examDuration * 60 * 60 * 1000)) {
-                timeLeft = new Date(examDateTime.getTime() + examDuration * 60 * 60 * 1000) - now;
-                message = "الوقت المتبقي لانتهاء الامتحان:";
-            } else {
-                document.getElementById('days').textContent = '00';
-                document.getElementById('hours').textContent = '00';
-                document.getElementById('minutes').textContent = '00';
-                document.getElementById('seconds').textContent = '00';
-                document.getElementById('message').textContent = "انتهى وقت الامتحان!";
-                return;
-            }
-
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-            document.getElementById('message').textContent = message;
-        }
-
-        function updateDateTime() {
-            const dateElement = document.getElementById('date');
-            const timeElement = document.getElementById('time');
-            const now = new Date();
-
-            const dateOptions = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            };
-            dateElement.textContent = now.toLocaleDateString('ar-EG', dateOptions);
-
-            const timeOptions = {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            };
-            timeElement.textContent = now.toLocaleTimeString('ar-EG', timeOptions);
-        }
-
-        // بدء التحديثات
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-        setInterval(updateDateTime, 1000);
-        updateDateTime();
-    </script>
-
 </body>
 </html>
