@@ -33,34 +33,45 @@
             overflow-x: hidden;
         }
         
-        /* تصميم الهيدر الذكي */
+        /* تصميم الهيدر الذكي */     /* تحسينات الهيدر لمنع التداخل */
         .header {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
+            padding: 12px 20px;
             background: linear-gradient(135deg, var(--primary), #088395);
             color: white;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             position: relative;
             z-index: 100;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         
-        .header-section {
+        .header-item {
+            flex: 1;
+            min-width: 120px;
             display: flex;
-            align-items: center;
-        }
-        
-        .header-section.right {
-            justify-content: flex-end;
-        }
-        
-        .header-section.center {
             justify-content: center;
         }
         
+        .header-item.time {
+            justify-content: flex-end;
+            order: 1;
+        }
+        
+        .header-item.logo {
+            flex: 0 0 auto;
+            order: 2;
+        }
+        
+        .header-item.date {
+            justify-content: flex-start;
+            order: 3;
+        }
+        
         .logo {
-            height: 60px;
+            height: 50px;
             width: auto;
             object-fit: contain;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
@@ -72,27 +83,29 @@
         }
         
         .time-display {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             text-shadow: 0 2px 4px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
         
         .date-display {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 3px;
+            white-space: nowrap;
         }
         
         .day-display {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 500;
         }
         
         .date-text {
-            font-size: 1rem;
+            font-size: 0.9rem;
             opacity: 0.9;
         }
         
