@@ -26,6 +26,7 @@
             text-align: center;
             border-radius: 5px 5px 0 0;
             margin-bottom: 20px;
+            position: relative;
         }
         h1 {
             margin: 0;
@@ -135,11 +136,40 @@
             50% { color: #c0392b; }
             100% { color: #e74c3c; }
         }
+        /* الأنماط الجديدة للساعة والتاريخ */
+        .header-time {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            font-size: 18px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .header-date {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 18px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        @media (max-width: 768px) {
+            .header-time, .header-date {
+                position: static;
+                display: block;
+                text-align: center;
+                margin: 5px 0;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
+            <div class="header-time" id="currentTime"></div>
+            <div class="header-date" id="currentDate"></div>
             <h1>جدول امتحانات دبلوم التعليم العام</h1>
             <div class="school-name">مركز عمر بن مسعود للتعليم الأساسي بنين</div>
             <div>الفصل الدراسي الثاني - الدور الأول 2024/2025 م</div>
@@ -298,6 +328,30 @@
             }
         }
 
+        // دالة لتحديث الساعة والتاريخ
+        function updateDateTime() {
+            const now = new Date();
+            const timeElement = document.getElementById("currentTime");
+            const dateElement = document.getElementById("currentDate");
+            
+            // تنسيق الوقت
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+            
+            // تنسيق التاريخ
+            const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+            const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            
+            const dayName = days[now.getDay()];
+            const day = now.getDate();
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            
+            dateElement.textContent = `${dayName}، ${day} ${month} ${year}`;
+        }
+
         // العد التنازلي للامتحانات
         function updateCountdowns() {
             const now = new Date();
@@ -366,6 +420,10 @@
                 }
             }
         }
+
+        // تحديث الساعة والتاريخ كل ثانية
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
 
         // تحديث العد التنازلي كل ثانية
         updateCountdowns();
