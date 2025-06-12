@@ -4,286 +4,527 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>جدول امتحانات دبلوم التعليم العام 2024/2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #7f8c8d;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
         }
+
+        body {
+            font-family: 'Tajawal', 'Arial', sans-serif;
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 0 15px;
         }
+
+        /* Header Styles */
         header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--white);
+            padding: 20px 0;
             text-align: center;
-            border-radius: 5px 5px 0 0;
-            margin-bottom: 20px;
+            border-radius: 0 0 15px 15px;
+            margin-bottom: 30px;
             position: relative;
+            box-shadow: var(--shadow);
         }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
         h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            padding: 0 15px;
         }
+
         .school-name {
-            font-size: 20px;
-            margin-top: 10px;
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: var(--light-color);
         }
+
+        .header-meta {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .header-time-date {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 15px;
+            border-radius: 50px;
+            margin: 15px auto 0;
+            max-width: 500px;
+            backdrop-filter: blur(5px);
+        }
+
+        .header-time, .header-date {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-time i, .header-date i {
+            color: var(--light-color);
+        }
+
+        /* Exam Table Styles */
+        .exam-table-container {
+            overflow-x: auto;
+            margin-bottom: 30px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 5px;
+        }
+
         .exam-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
+            min-width: 600px;
         }
-        .exam-table th, .exam-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: center;
-        }
+
         .exam-table th {
-            background-color: #3498db;
-            color: white;
-        }
-        .exam-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        .exam-table tr:hover {
-            background-color: #e3f2fd;
-        }
-        .countdown {
-            font-size: 18px;
-            font-weight: bold;
-            color: #e74c3c;
-            margin-top: 5px;
-        }
-        .instructions-btn {
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            padding: 10px 20px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 15px;
             text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px 0;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
         }
+
+        .exam-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .exam-table tr:not(.holiday):hover td {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .exam-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .countdown {
+            font-weight: 700;
+            color: var(--accent-color);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Holiday Styles */
+        .holiday {
+            background-color: rgba(243, 156, 18, 0.1);
+            color: var(--warning-color);
+        }
+
+        .holiday td {
+            font-weight: 600;
+        }
+
+        /* Active Exam Styles */
+        .exam-active {
+            background-color: rgba(39, 174, 96, 0.1) !important;
+            position: relative;
+        }
+
+        .exam-active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background-color: var(--success-color);
+        }
+
+        .timer-active {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Button Styles */
+        .instructions-btn {
+            background-color: var(--success-color);
+            color: var(--white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 20px 0 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
         .instructions-btn:hover {
             background-color: #2ecc71;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
         }
+
+        .instructions-btn i {
+            font-size: 1.1rem;
+        }
+
+        /* Modal Styles */
         .instructions-modal {
             display: none;
             position: fixed;
-            z-index: 1;
+            z-index: 100;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.4);
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
         }
+
         .modal-content {
-            background-color: #fefefe;
+            background-color: var(--white);
             margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
+            padding: 25px;
+            border-radius: 15px;
+            width: 90%;
             max-width: 600px;
-            border-radius: 5px;
             position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s;
         }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .close {
-            color: #aaa;
-            float: left;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .close:hover {
-            color: black;
-        }
-        .holiday {
-            background-color: #f39c12;
-            color: white;
-            font-weight: bold;
-        }
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #2c3e50;
-            color: white;
-            border-radius: 0 0 5px 5px;
-        }
-        .exam-active {
-            background-color: #d4edda !important;
-            font-weight: bold;
-        }
-        .timer-active {
-            font-size: 20px;
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse {
-            0% { color: #e74c3c; }
-            50% { color: #c0392b; }
-            100% { color: #e74c3c; }
-        }
-        /* الأنماط الجديدة للساعة والتاريخ */
-        .header-time {
             position: absolute;
             left: 20px;
-            top: 20px;
-            font-size: 18px;
-            background: rgba(255,255,255,0.2);
-            padding: 5px 10px;
-            border-radius: 5px;
+            top: 15px;
+            color: var(--text-light);
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
         }
-        .header-date {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            font-size: 18px;
-            background: rgba(255,255,255,0.2);
-            padding: 5px 10px;
-            border-radius: 5px;
+
+        .close:hover {
+            color: var(--accent-color);
+            transform: rotate(90deg);
         }
+
+        .modal-content h2 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .modal-content ol {
+            padding-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content li {
+            margin-bottom: 10px;
+            padding-right: 10px;
+        }
+
+        .modal-content p {
+            text-align: center;
+            font-style: italic;
+            color: var(--primary-color);
+            margin-top: 20px;
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to right, var(--secondary-color), var(--dark-color));
+            color: var(--white);
+            border-radius: 15px 15px 0 0;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive Styles */
         @media (max-width: 768px) {
-            .header-time, .header-date {
-                position: static;
-                display: block;
-                text-align: center;
-                margin: 5px 0;
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .school-name {
+                font-size: 1rem;
+            }
+            
+            .header-meta {
+                font-size: 0.8rem;
+            }
+            
+            .header-time-date {
+                flex-direction: column;
+                gap: 8px;
+                padding: 12px;
+                border-radius: 15px;
+            }
+            
+            .exam-table th, .exam-table td {
+                padding: 10px 8px;
+                font-size: 0.9rem;
+            }
+            
+            .countdown {
+                font-size: 0.85rem;
+            }
+            
+            .instructions-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .modal-content {
+                margin: 20% auto;
+                padding: 20px 15px;
             }
         }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            .header-time-date {
+                font-size: 0.85rem;
+            }
+            
+            .exam-table {
+                min-width: 100%;
+            }
+            
+            .exam-table th {
+                font-size: 0.8rem;
+                padding: 8px 5px;
+            }
+            
+            .exam-table td {
+                font-size: 0.8rem;
+                padding: 8px 5px;
+            }
+            
+            .countdown {
+                flex-direction: column;
+                gap: 2px;
+            }
+        }
+
+        /* Animation for table rows */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .exam-table tbody tr {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .exam-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+        .exam-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+        .exam-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+        .exam-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+        .exam-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+        .exam-table tbody tr:nth-child(6) { animation-delay: 0.6s; }
+        .exam-table tbody tr:nth-child(7) { animation-delay: 0.7s; }
+        .exam-table tbody tr:nth-child(8) { animation-delay: 0.8s; }
+        .exam-table tbody tr:nth-child(9) { animation-delay: 0.9s; }
+        .exam-table tbody tr:nth-child(10) { animation-delay: 1.0s; }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="header-time" id="currentTime"></div>
-            <div class="header-date" id="currentDate"></div>
-            <h1>جدول امتحانات دبلوم التعليم العام</h1>
-            <div class="school-name">مركز عمر بن مسعود للتعليم الأساسي بنين</div>
-            <div>الفصل الدراسي الثاني - الدور الأول 2024/2025 م</div>
-            <button class="instructions-btn" id="instructionsBtn">تعليمات الاختبار</button>
+            <div class="header-content">
+                <h1>جدول امتحانات دبلوم التعليم العام</h1>
+                <div class="school-name">مركز عمر بن مسعود للتعليم الأساسي بنين</div>
+                <div class="header-meta">الفصل الدراسي الثاني - الدور الأول 2024/2025 م</div>
+                
+                <div class="header-time-date">
+                    <div class="header-time" id="currentTime">
+                        <i class="fas fa-clock"></i>
+                        <span>00:00:00</span>
+                    </div>
+                    <div class="header-date" id="currentDate">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>الأحد، ١ يناير ٢٠٢٣</span>
+                    </div>
+                </div>
+                
+                <button class="instructions-btn" id="instructionsBtn">
+                    <i class="fas fa-info-circle"></i>
+                    تعليمات الاختبار
+                </button>
+            </div>
         </header>
 
-        <table class="exam-table">
-            <thead>
-                <tr>
-                    <th>اليوم</th>
-                    <th>التاريخ</th>
-                    <th>المادة</th>
-                    <th>وقت الامتحان</th>
-                    <th>العد التنازلي</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="exam1">
-                    <td>الأحد</td>
-                    <td>15/6/2025</td>
-                    <td>الرياضيات المتقدمة والرياضيات الأساسية</td>
-                    <td>8:00 صباحًا - 11:00 صباحًا</td>
-                    <td class="countdown" id="countdown1"></td>
-                </tr>
-                <tr id="exam2">
-                    <td>الإثنين</td>
-                    <td>16/6/2025</td>
-                    <td>التاريخ (العالم من حولي)</td>
-                    <td>8:00 صباحًا - 11:00 صباحًا</td>
-                    <td class="countdown" id="countdown2"></td>
-                </tr>
-                <tr id="exam3">
-                    <td>الثلاثاء</td>
-                    <td>17/6/2025</td>
-                    <td>الأحياء</td>
-                    <td>8:00 صباحًا - 11:00 صباحًا</td>
-                    <td class="countdown" id="countdown3"></td>
-                </tr>
-                <tr id="exam4">
-                    <td>الأربعاء</td>
-                    <td>18/6/2025</td>
-                    <td>اللغة الإنجليزية</td>
-                    <td>8:00 صباحًا - 11:00 صباحًا</td>
-                    <td class="countdown" id="countdown4"></td>
-                </tr>
-                <tr id="exam5">
-                    <td>الخميس</td>
-                    <td>19/6/2025</td>
-                    <td>التربية الإسلامية</td>
-                    <td>8:00 صباحًا - 11:00 صباحًا</td>
-                    <td class="countdown" id="countdown5"></td>
-                </tr>
-                <tr class="holiday">
-                    <td>الجمعة</td>
-                    <td>20/6/2025</td>
-                    <td colspan="3">إجازة نهاية الأسبوع</td>
-                </tr>
-                <tr class="holiday">
-                    <td>السبت</td>
-                    <td>21/6/2025</td>
-                    <td colspan="3">إجازة نهاية الأسبوع</td>
-                </tr>
-                <tr id="exam6">
-                    <td>الأحد</td>
-                    <td>22/6/2025</td>
-                    <td>اللغة العربية</td>
-                    <td>8:00 صباحًا - 11:00 صباحًا</td>
-                    <td class="countdown" id="countdown6"></td>
-                </tr>
-                <tr id="exam7">
-                    <td>الإثنين</td>
-                    <td>23/6/2025</td>
-                    <td>الجغرافيا والتقنيات الحديثة</td>
-                    <td>8:00 صباحًا - 11:00 صباحًا</td>
-                    <td class="countdown" id="countdown7"></td>
-                </tr>
-                <tr id="exam8">
-                    <td>الثلاثاء</td>
-                    <td>24/6/2025</td>
-                    <td>الكيمياء</td>
-                    <td>8:00 صباحًا - 11:00 صباحًا</td>
-                    <td class="countdown" id="countdown8"></td>
-                </tr>
-                <tr id="exam9">
-                    <td>الأربعاء</td>
-                    <td>25/6/2025</td>
-                    <td>الدراسات الاجتماعية (هذا وطني)</td>
-                    <td>8:00 صباحًا - 11:00 صباحًا</td>
-                    <td class="countdown" id="countdown9"></td>
-                </tr>
-                <tr class="holiday">
-                    <td>الخميس</td>
-                    <td>26/6/2025</td>
-                    <td colspan="3">إجازة رأس السنة الهجرية</td>
-                </tr>
-                <tr class="holiday">
-                    <td>الجمعة</td>
-                    <td>27/6/2025</td>
-                    <td colspan="3">إجازة نهاية الأسبوع</td>
-                </tr>
-                <tr class="holiday">
-                    <td>السبت</td>
-                    <td>28/6/2025</td>
-                    <td colspan="3">إجازة نهاية الأسبوع</td>
-                </tr>
-                <tr id="exam10">
-                    <td>الأحد</td>
-                    <td>29/6/2025</td>
-                    <td>اختبارات احتياطية (إن وجدت)</td>
-                    <td>8:00 صباحًا - 11:00 صباحًا</td>
-                    <td class="countdown" id="countdown10"></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="exam-table-container">
+            <table class="exam-table">
+                <thead>
+                    <tr>
+                        <th>اليوم</th>
+                        <th>التاريخ</th>
+                        <th>المادة</th>
+                        <th>وقت الامتحان</th>
+                        <th>العد التنازلي</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="exam1">
+                        <td>الأحد</td>
+                        <td>15/6/2025</td>
+                        <td>الرياضيات المتقدمة والرياضيات الأساسية</td>
+                        <td>8:00 صباحًا - 11:00 صباحًا</td>
+                        <td class="countdown" id="countdown1"></td>
+                    </tr>
+                    <tr id="exam2">
+                        <td>الإثنين</td>
+                        <td>16/6/2025</td>
+                        <td>التاريخ (العالم من حولي)</td>
+                        <td>8:00 صباحًا - 11:00 صباحًا</td>
+                        <td class="countdown" id="countdown2"></td>
+                    </tr>
+                    <tr id="exam3">
+                        <td>الثلاثاء</td>
+                        <td>17/6/2025</td>
+                        <td>الأحياء</td>
+                        <td>8:00 صباحًا - 11:00 صباحًا</td>
+                        <td class="countdown" id="countdown3"></td>
+                    </tr>
+                    <tr id="exam4">
+                        <td>الأربعاء</td>
+                        <td>18/6/2025</td>
+                        <td>اللغة الإنجليزية</td>
+                        <td>8:00 صباحًا - 11:00 صباحًا</td>
+                        <td class="countdown" id="countdown4"></td>
+                    </tr>
+                    <tr id="exam5">
+                        <td>الخميس</td>
+                        <td>19/6/2025</td>
+                        <td>التربية الإسلامية</td>
+                        <td>8:00 صباحًا - 11:00 صباحًا</td>
+                        <td class="countdown" id="countdown5"></td>
+                    </tr>
+                    <tr class="holiday">
+                        <td>الجمعة</td>
+                        <td>20/6/2025</td>
+                        <td colspan="3">إجازة نهاية الأسبوع</td>
+                    </tr>
+                    <tr class="holiday">
+                        <td>السبت</td>
+                        <td>21/6/2025</td>
+                        <td colspan="3">إجازة نهاية الأسبوع</td>
+                    </tr>
+                    <tr id="exam6">
+                        <td>الأحد</td>
+                        <td>22/6/2025</td>
+                        <td>اللغة العربية</td>
+                        <td>8:00 صباحًا - 11:00 صباحًا</td>
+                        <td class="countdown" id="countdown6"></td>
+                    </tr>
+                    <tr id="exam7">
+                        <td>الإثنين</td>
+                        <td>23/6/2025</td>
+                        <td>الجغرافيا والتقنيات الحديثة</td>
+                        <td>8:00 صباحًا - 11:00 صباحًا</td>
+                        <td class="countdown" id="countdown7"></td>
+                    </tr>
+                    <tr id="exam8">
+                        <td>الثلاثاء</td>
+                        <td>24/6/2025</td>
+                        <td>الكيمياء</td>
+                        <td>8:00 صباحًا - 11:00 صباحًا</td>
+                        <td class="countdown" id="countdown8"></td>
+                    </tr>
+                    <tr id="exam9">
+                        <td>الأربعاء</td>
+                        <td>25/6/2025</td>
+                        <td>الدراسات الاجتماعية (هذا وطني)</td>
+                        <td>8:00 صباحًا - 11:00 صباحًا</td>
+                        <td class="countdown" id="countdown9"></td>
+                    </tr>
+                    <tr class="holiday">
+                        <td>الخميس</td>
+                        <td>26/6/2025</td>
+                        <td colspan="3">إجازة رأس السنة الهجرية</td>
+                    </tr>
+                    <tr class="holiday">
+                        <td>الجمعة</td>
+                        <td>27/6/2025</td>
+                        <td colspan="3">إجازة نهاية الأسبوع</td>
+                    </tr>
+                    <tr class="holiday">
+                        <td>السبت</td>
+                        <td>28/6/2025</td>
+                        <td colspan="3">إجازة نهاية الأسبوع</td>
+                    </tr>
+                    <tr id="exam10">
+                        <td>الأحد</td>
+                        <td>29/6/2025</td>
+                        <td>اختبارات احتياطية (إن وجدت)</td>
+                        <td>8:00 صباحًا - 11:00 صباحًا</td>
+                        <td class="countdown" id="countdown10"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <footer>
             <p>تم إنشاء الجدول بواسطة مركز عمر بن مسعود للتعليم الأساسي بنين - جميع الحقوق محفوظة &copy; 2025</p>
@@ -316,23 +557,26 @@
 
         btn.onclick = function() {
             modal.style.display = "block";
+            document.body.style.overflow = "hidden";
         }
 
         span.onclick = function() {
             modal.style.display = "none";
+            document.body.style.overflow = "auto";
         }
 
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
+                document.body.style.overflow = "auto";
             }
         }
 
         // دالة لتحديث الساعة والتاريخ
         function updateDateTime() {
             const now = new Date();
-            const timeElement = document.getElementById("currentTime");
-            const dateElement = document.getElementById("currentDate");
+            const timeElement = document.getElementById("currentTime").querySelector("span");
+            const dateElement = document.getElementById("currentDate").querySelector("span");
             
             // تنسيق الوقت
             const hours = now.getHours().toString().padStart(2, '0');
@@ -387,7 +631,7 @@
                     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
                     
-                    countdownElement.innerHTML = `يبدأ بعد: ${days} يوم ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
+                    countdownElement.innerHTML = `<i class="fas fa-hourglass-start"></i> يبدأ بعد: ${days} يوم ${hours} س ${minutes} د ${seconds} ث`;
                 } 
                 else if (now >= exam.date && now <= exam.end) {
                     // أثناء الامتحان
@@ -398,13 +642,13 @@
                     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
                     
-                    countdownElement.innerHTML = `الوقت المتبقي: ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
+                    countdownElement.innerHTML = `<i class="fas fa-hourglass-half"></i> الوقت المتبقي: ${hours} س ${minutes} د ${seconds} ث`;
                     examRow.classList.add("exam-active");
                     countdownElement.classList.add("timer-active");
                 } 
                 else {
                     // بعد انتهاء الامتحان
-                    countdownElement.innerHTML = "تم الانتهاء من الاختبار";
+                    countdownElement.innerHTML = '<i class="fas fa-check-circle"></i> تم الانتهاء من الاختبار';
                 }
             });
 
@@ -428,6 +672,14 @@
         // تحديث العد التنازلي كل ثانية
         updateCountdowns();
         setInterval(updateCountdowns, 1000);
+
+        // إضافة تأثيرات عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.querySelector('header').style.opacity = '1';
+                document.querySelector('.exam-table-container').style.opacity = '1';
+            }, 100);
+        });
     </script>
 </body>
 </html>
