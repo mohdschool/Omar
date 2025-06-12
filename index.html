@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>جدول امتحانات دبلوم التعليم العام 2024/2025</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #3498db;
@@ -28,10 +29,11 @@
         }
 
         body {
-            font-family: 'Tajawal', 'Arial', sans-serif;
+            font-family: 'Tajawal', sans-serif;
             background-color: #f5f7fa;
             color: var(--text-color);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .container {
@@ -50,6 +52,24 @@
             margin-bottom: 30px;
             position: relative;
             box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1350&q=80') center/cover;
+            opacity: 0.15;
+            z-index: 1;
+            animation: bgPan 30s infinite alternate linear;
+        }
+
+        @keyframes bgPan {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
 
         .header-content {
@@ -62,17 +82,20 @@
             font-size: 1.8rem;
             font-weight: 700;
             padding: 0 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .school-name {
             font-size: 1.2rem;
             margin: 10px 0;
             color: var(--light-color);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
         .header-meta {
             font-size: 0.9rem;
             opacity: 0.9;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
         .header-time-date {
@@ -84,16 +107,70 @@
             margin: 15px auto 0;
             max-width: 500px;
             backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .header-time, .header-date {
             display: flex;
             align-items: center;
             gap: 8px;
+            font-weight: 500;
         }
 
         .header-time i, .header-date i {
             color: var(--light-color);
+        }
+
+        /* Buttons Container */
+        .header-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* Button Styles */
+        .instructions-btn, .contact-btn {
+            color: var(--white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            position: relative;
+        }
+
+        .instructions-btn {
+            background-color: var(--success-color);
+        }
+
+        .contact-btn {
+            background-color: var(--warning-color);
+        }
+
+        .instructions-btn:hover, .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .instructions-btn:hover {
+            background-color: #2ecc71;
+        }
+
+        .contact-btn:hover {
+            background-color: #f1c40f;
+        }
+
+        .instructions-btn i, .contact-btn i {
+            font-size: 1.1rem;
         }
 
         /* Exam Table Styles */
@@ -181,36 +258,8 @@
             100% { transform: scale(1); }
         }
 
-        /* Button Styles */
-        .instructions-btn {
-            background-color: var(--success-color);
-            color: var(--white);
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin: 20px 0 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: var(--transition);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .instructions-btn:hover {
-            background-color: #2ecc71;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .instructions-btn i {
-            font-size: 1.1rem;
-        }
-
         /* Modal Styles */
-        .instructions-modal {
+        .instructions-modal, .contact-modal {
             display: none;
             position: fixed;
             z-index: 100;
@@ -280,6 +329,27 @@
             margin-top: 20px;
         }
 
+        .contact-info {
+            margin-top: 20px;
+        }
+
+        .contact-info div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 8px;
+        }
+
+        .contact-info i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            width: 30px;
+            text-align: center;
+        }
+
         /* Footer Styles */
         footer {
             text-align: center;
@@ -326,7 +396,7 @@
                 font-size: 0.85rem;
             }
             
-            .instructions-btn {
+            .instructions-btn, .contact-btn {
                 padding: 10px 20px;
                 font-size: 0.9rem;
             }
@@ -364,6 +434,17 @@
                 flex-direction: column;
                 gap: 2px;
             }
+            
+            .header-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .instructions-btn, .contact-btn {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
         }
 
         /* Animation for table rows */
@@ -387,11 +468,11 @@
         .exam-table tbody tr:nth-child(9) { animation-delay: 0.9s; }
         .exam-table tbody tr:nth-child(10) { animation-delay: 1.0s; }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
+            <div class="header-bg"></div>
             <div class="header-content">
                 <h1>جدول امتحانات دبلوم التعليم العام</h1>
                 <div class="school-name">مركز عمر بن مسعود للتعليم الأساسي بنين</div>
@@ -400,7 +481,7 @@
                 <div class="header-time-date">
                     <div class="header-time" id="currentTime">
                         <i class="fas fa-clock"></i>
-                        <span>00:00:00</span>
+                        <span>00:00:00 ص</span>
                     </div>
                     <div class="header-date" id="currentDate">
                         <i class="fas fa-calendar-alt"></i>
@@ -408,10 +489,16 @@
                     </div>
                 </div>
                 
-                <button class="instructions-btn" id="instructionsBtn">
-                    <i class="fas fa-info-circle"></i>
-                    تعليمات الاختبار
-                </button>
+                <div class="header-buttons">
+                    <button class="instructions-btn" id="instructionsBtn">
+                        <i class="fas fa-info-circle"></i>
+                        تعليمات الاختبار
+                    </button>
+                    <button class="contact-btn" id="contactBtn">
+                        <i class="fas fa-envelope"></i>
+                        رسالة المركز
+                    </button>
+                </div>
             </div>
         </header>
 
@@ -527,30 +614,31 @@
         </div>
 
         <footer>
-            <p>تم إنشاء الجدول بواسطة مركز عمر بن مسعود للتعليم الأساسي بنين - جميع الحقوق محفوظة &copy; 2025</p>
+            <p>تم إنشاء الجدول بواسطة رئيس مركز عمر بن مسعود للتعليم الأساسي بنين - جميع الحقوق محفوظة &copy; 2025</p>
         </footer>
     </div>
 
+    <!-- تعليمات الاختبار Modal -->
     <div id="instructionsModal" class="instructions-modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>تعليمات الاختبار</h2>
             <ol>
-               <li>يُرجى من جميع المتقدمين الالتزام بالزي العُماني الرسمي: الدشداشة البيضاء والمصر والكمة للذكور، ولن يُسمح بدخول أي طالب لا يلتزم بذلك.</li>
+             <li>يُرجى من جميع المتقدمين الالتزام بالزي العُماني الرسمي: الدشداشة البيضاء والمصر والكمة </li>
 
   <li>يُمنع منعًا باتًا إدخال الهواتف النقالة، أو الأجهزة الذكية، أو أدوات التصوير، أو الساعات الإلكترونية، أو أي أدوات غير مصرح بها إلى قاعة الامتحان.</li>
 
   <li>يُحظر إدخال الأسلحة أو الأدوات الحادة أو ما يشابهها إلى داخل المركز أو القاعات الامتحانية.</li>
 
-  <li>يلتزم المترشحون باتباع إجراءات التفتيش والتعليمات الأمنية داخل المركز، والتعاون التام مع المراقبين لضمان سير العملية الامتحانية بسلاسة.</li>
+  <li>يلتزم الطلبة باتباع إجراءات التفتيش والتعليمات الأمنية داخل المركز، والتعاون التام مع المشرفين لضمان سير العملية الامتحانية بسلاسة.</li>
 
-  <li>على كل طالب إحضار بطاقة الهوية الشخصية ولن يُسمح بدخول قاعة الامتحان بدونها.</li>
+  <li>على كل طالب إحضار بطاقة الهوية الشخصية أو البطاقة الامتحانية، ولن يُسمح بدخول قاعة الامتحان بدونها.</li>
 
-  <li>لا يُسمح بمغادرة قاعة الامتحان قبل انقضاء ثلاثة أرباع زمن الاختبار</li>
+  <li>لا يُسمح بمغادرة قاعة الامتحان قبل انقضاء ثلاثة ارباع زمن الاختبار </li>
 
   <li>يُقتصر استخدام الأدوات على ما هو مصرح به لكل مادة فقط، ويُمنع استعمال أي وسيلة أو أداة إضافية لم تُدرج ضمن قائمة المسموحات.</li>
 
-  <li>يجب على الطلبة الحضور إلى المركز قبل نصف ساعة على الأقل من بدء الامتحان، والتواجد في قاعة الاختبار قبل بدء الامتحان بـ 10 دقائق.</li>
+  <li>يجب على الطلبة الحضور إلى المركز قبل نصف ساعة على الأقل من بدء الامتحان، والتواجد في قاعة الاختبار قبل بدء الامتحان بـ 15 دقيقة</li>
 
   <li>لا يُسمح بالدخول إلى قاعة الامتحان بعد مرور 15 دقيقة من بدء الوقت، إلا بإذن من رئيس المركز في حالات استثنائية مبررة.</li>
 
@@ -566,25 +654,66 @@
         </div>
     </div>
 
+    <!-- رسالة المركز Modal -->
+    <div id="contactModal" class="contact-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>رسالة المركز</h2>
+            <p>مرحباً بكم في مركز عمر بن مسعود للتعليم الأساسي بنين، نسعى دائماً لتوفير أفضل بيئة تعليمية لطلابنا الأعزاء.</p>
+            
+            <div class="contact-info">
+                <div>
+                    <i class="fas fa-phone"></i>
+                    <span>هاتف المركز: 25689749</span>
+                </div>
+                <div>
+                    <i class="fas fa-envelope"></i>
+                    <span>البريد الإلكتروني: </span>
+                </div>
+                <div>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>عنوان المركز: سلطنة عمان /محافظة الظاهرة /ولاية عبري   </span>
+                </div>
+                <div>
+                    <i class="fas fa-clock"></i>
+                    <span>ساعات العمل: من الأحد إلى الخميس، 7:30 صباحاً - 11:30 صباحا</span>
+                </div>
+            </div>
+            
+            <p>نرحب باستفساراتكم واقتراحاتكم في أي وقت</p>
+        </div>
+    </div>
+
     <script>
         // تعليمات الاختبار - عرض وإخفاء النافذة
-        const modal = document.getElementById("instructionsModal");
-        const btn = document.getElementById("instructionsBtn");
-        const span = document.getElementsByClassName("close")[0];
+        const instructionsModal = document.getElementById("instructionsModal");
+        const instructionsBtn = document.getElementById("instructionsBtn");
+        const contactModal = document.getElementById("contactModal");
+        const contactBtn = document.getElementById("contactBtn");
+        const closeButtons = document.getElementsByClassName("close");
 
-        btn.onclick = function() {
-            modal.style.display = "block";
+        instructionsBtn.onclick = function() {
+            instructionsModal.style.display = "block";
             document.body.style.overflow = "hidden";
         }
 
-        span.onclick = function() {
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
+        contactBtn.onclick = function() {
+            contactModal.style.display = "block";
+            document.body.style.overflow = "hidden";
+        }
+
+        for (let i = 0; i < closeButtons.length; i++) {
+            closeButtons[i].onclick = function() {
+                instructionsModal.style.display = "none";
+                contactModal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
         }
 
         window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+            if (event.target == instructionsModal || event.target == contactModal) {
+                instructionsModal.style.display = "none";
+                contactModal.style.display = "none";
                 document.body.style.overflow = "auto";
             }
         }
@@ -595,11 +724,14 @@
             const timeElement = document.getElementById("currentTime").querySelector("span");
             const dateElement = document.getElementById("currentDate").querySelector("span");
             
-            // تنسيق الوقت
-            const hours = now.getHours().toString().padStart(2, '0');
+            // تنسيق الوقت بنظام 12 ساعة
+            let hours = now.getHours();
+            const ampm = hours >= 12 ? 'م' : 'ص';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // الساعة 0 تصبح 12
             const minutes = now.getMinutes().toString().padStart(2, '0');
             const seconds = now.getSeconds().toString().padStart(2, '0');
-            timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+            timeElement.textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
             
             // تنسيق التاريخ
             const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
