@@ -3,779 +3,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الامتحانات | مدرسة عمر بن مسعود</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <title>جدول امتحانات دبلوم التعليم العام 2024/2025</title>
     <style>
-        :root {
-            --primary: #0A4D68;
-            --secondary: #05BFDB;
-            --accent: #FF9F29;
-            --light: #F6F6F6;
-            --dark: #1A1A1A;
-            --warning: #FF6B6B;
-            --success: #4CAF50;
-        }
-        
-        * {
+        body {
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Tajawal', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
         }
-        
-        body {
-            background-color: #f0f4f8;
-            color: var(--dark);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        
-        /* تصميم الهيدر الذكي */     /* تحسينات الهيدر لمنع التداخل */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 20px;
-            background: linear-gradient(135deg, var(--primary), #088395);
+        header {
+            background-color: #2c3e50;
             color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 100;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .header-item {
-            flex: 1;
-            min-width: 120px;
-            display: flex;
-            justify-content: center;
-        }
-        
-        .header-item.time {
-            justify-content: flex-end;
-            order: 1;
-        }
-        
-        .header-item.logo {
-            flex: 0 0 auto;
-            order: 2;
-        }
-        
-        .header-item.date {
-            justify-content: flex-start;
-            order: 3;
-        }
-        
-        .logo {
-            height: 50px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-            transition: transform 0.3s;
-        }
-        
-        .logo:hover {
-            transform: scale(1.05);
-        }
-        
-        .time-display {
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-        }
-        
-        .date-display {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            white-space: nowrap;
-        }
-        
-        .day-display {
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-        
-        .date-text {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        /* المحتوى الرئيسي */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 25px;
-            position: relative;
-        }
-        
-        .bg-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(5, 191, 219, 0.05) 1px, transparent 1px),
-                radial-gradient(circle at 90% 80%, rgba(255, 159, 41, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -1;
-            animation: movePattern 60s linear infinite;
-        }
-        
-        /* اختيار المرحلة */
-        .grade-selector {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-        
-        .grade-btn {
-            padding: 12px 20px;
-            background-color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--primary);
-            cursor: pointer;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-            min-width: 80px;
+            padding: 20px;
             text-align: center;
-        }
-        
-        .grade-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: 0.5s;
-        }
-        
-        .grade-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-        }
-        
-        .grade-btn:hover::before {
-            left: 100%;
-        }
-        
-        .grade-btn.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(10, 77, 104, 0.3);
-        }
-        
-        /* بطاقة الامتحان */
-        .exam-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .exam-card {
-            background-color: white;
-            border-radius: 18px;
-            padding: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-        
-        .exam-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-        }
-        
-        .exam-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, var(--secondary), var(--accent));
-        }
-        
-        .exam-title {
-            color: var(--primary);
-            font-size: 1.8rem;
-            text-align: center;
+            border-radius: 5px 5px 0 0;
             margin-bottom: 20px;
-            font-weight: 700;
-            position: relative;
-            padding-bottom: 10px;
         }
-        
-        .exam-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 3px;
+        h1 {
+            margin: 0;
+            font-size: 24px;
         }
-        
-        .exam-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
+        .school-name {
+            font-size: 20px;
+            margin-top: 10px;
         }
-        
-        .detail-box {
-            background-color: var(--light);
-            border-radius: 12px;
-            padding: 18px;
-            text-align: center;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-            border-top: 4px solid var(--secondary);
+        .exam-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
         }
-        
-        .detail-box:hover {
-            transform: translateY(-5px);
-        }
-        
-        .detail-label {
-            color: var(--primary);
-            font-size: 1rem;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        
-        .detail-value {
-            color: var(--dark);
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
-        
-        /* العد التنازلي */
-        .countdown-section {
-            margin-top: 20px;
+        .exam-table th, .exam-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
             text-align: center;
         }
-        
-        .countdown-title {
-            font-size: 1.3rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .countdown-title i {
-            color: var(--accent);
-        }
-        
-        .countdown-timer {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .countdown-box {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        .exam-table th {
+            background-color: #3498db;
             color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            font-size: 1.8rem;
-            font-weight: 700;
-            min-width: 80px;
-            box-shadow: 0 5px 15px rgba(5, 191, 219, 0.2);
-            position: relative;
-            overflow: hidden;
         }
-        
-        .countdown-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(to bottom right, rgba(255,255,255,0.2), transparent);
-            transform: rotate(30deg);
-            animation: shine 3s infinite;
+        .exam-table tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
-        
-        .countdown-label {
-            font-size: 0.9rem;
+        .exam-table tr:hover {
+            background-color: #e3f2fd;
+        }
+        .countdown {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e74c3c;
             margin-top: 5px;
-            display: block;
         }
-        
-        .exam-active .countdown-box {
-            background: linear-gradient(135deg, var(--warning), var(--accent));
-        }
-        
-        .no-exams {
-            text-align: center;
-            padding: 40px;
-            font-size: 1.5rem;
-            color: var(--primary);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-        }
-        
-        .no-exams i {
-            font-size: 3rem;
-            color: var(--secondary);
-            margin-bottom: 20px;
-            animation: bounce 2s infinite;
-        }
-        
-        /* الفوتر */
-        .footer {
-            text-align: center;
-            padding: 15px;
-            background-color: var(--dark);
+        .instructions-btn {
+            background-color: #27ae60;
             color: white;
-            font-size: 0.9rem;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .instructions-btn:hover {
+            background-color: #2ecc71;
+        }
+        .instructions-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 5px;
             position: relative;
         }
-        
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--secondary), var(--accent));
+        .close {
+            color: #aaa;
+            float: left;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
         }
-        
-        /* تأثيرات الحركة */
-        @keyframes movePattern {
-            0% { background-position: 0 0; }
-            100% { background-position: 40px 40px; }
+        .close:hover {
+            color: black;
         }
-        
-        @keyframes shine {
-            0% { transform: rotate(30deg) translate(-30%, -30%); }
-            100% { transform: rotate(30deg) translate(30%, 30%); }
+        .holiday {
+            background-color: #f39c12;
+            color: white;
+            font-weight: bold;
         }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-15px); }
-            60% { transform: translateY(-7px); }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 0 0 5px 5px;
         }
-        
+        .exam-active {
+            background-color: #d4edda !important;
+            font-weight: bold;
+        }
+        .timer-active {
+            font-size: 20px;
+            animation: pulse 1s infinite;
+        }
         @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        
-        .urgent {
-            animation: pulse 1.5s infinite;
-        }
-        
-        /* التكيف مع الشاشات الصغيرة */
-        @media (max-width: 768px) {
-            .header {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto auto;
-                gap: 10px;
-                padding: 15px;
-                text-align: center;
-            }
-            
-            .header-section {
-                justify-content: center !important;
-            }
-            
-            .time-display {
-                font-size: 1.5rem;
-            }
-            
-            .grade-selector {
-                gap: 8px;
-            }
-            
-            .grade-btn {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-                min-width: 70px;
-            }
-            
-            .exam-title {
-                font-size: 1.5rem;
-            }
-            
-            .detail-value {
-                font-size: 1.2rem;
-            }
-            
-            .countdown-box {
-                padding: 10px 15px;
-                font-size: 1.5rem;
-                min-width: 70px;
-            }
+            0% { color: #e74c3c; }
+            50% { color: #c0392b; }
+            100% { color: #e74c3c; }
         }
     </style>
 </head>
 <body>
-    <!-- الهيدر الذكي -->
-    <header class="header">
-        <div class="header-section right">
-            <div class="time-display">
-                <i class="far fa-clock"></i>
-                <span id="current-time">٠٨:٠٠:٠٠ ص</span>
-            </div>
+    <div class="container">
+        <header>
+            <h1>جدول امتحانات دبلوم التعليم العام</h1>
+            <div class="school-name">مركز عمر بن مسعود للتعليم الأساسي بنين</div>
+            <div>الفصل الدراسي الثاني - الدور الأول 2024/2025 م</div>
+            <button class="instructions-btn" id="instructionsBtn">تعليمات الاختبار</button>
+        </header>
+
+        <table class="exam-table">
+            <thead>
+                <tr>
+                    <th>اليوم</th>
+                    <th>التاريخ</th>
+                    <th>المادة</th>
+                    <th>وقت الامتحان</th>
+                    <th>العد التنازلي</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="exam1">
+                    <td>الأحد</td>
+                    <td>15/6/2025</td>
+                    <td>الرياضيات المتقدمة والرياضيات الأساسية</td>
+                    <td>8:00 صباحًا - 11:00 صباحًا</td>
+                    <td class="countdown" id="countdown1"></td>
+                </tr>
+                <tr id="exam2">
+                    <td>الإثنين</td>
+                    <td>16/6/2025</td>
+                    <td>التاريخ (العالم من حولي)</td>
+                    <td>8:00 صباحًا - 11:00 صباحًا</td>
+                    <td class="countdown" id="countdown2"></td>
+                </tr>
+                <tr id="exam3">
+                    <td>الثلاثاء</td>
+                    <td>17/6/2025</td>
+                    <td>الأحياء</td>
+                    <td>8:00 صباحًا - 11:00 صباحًا</td>
+                    <td class="countdown" id="countdown3"></td>
+                </tr>
+                <tr id="exam4">
+                    <td>الأربعاء</td>
+                    <td>18/6/2025</td>
+                    <td>اللغة الإنجليزية</td>
+                    <td>8:00 صباحًا - 11:00 صباحًا</td>
+                    <td class="countdown" id="countdown4"></td>
+                </tr>
+                <tr id="exam5">
+                    <td>الخميس</td>
+                    <td>19/6/2025</td>
+                    <td>التربية الإسلامية</td>
+                    <td>8:00 صباحًا - 11:00 صباحًا</td>
+                    <td class="countdown" id="countdown5"></td>
+                </tr>
+                <tr class="holiday">
+                    <td>الجمعة</td>
+                    <td>20/6/2025</td>
+                    <td colspan="3">إجازة نهاية الأسبوع</td>
+                </tr>
+                <tr class="holiday">
+                    <td>السبت</td>
+                    <td>21/6/2025</td>
+                    <td colspan="3">إجازة نهاية الأسبوع</td>
+                </tr>
+                <tr id="exam6">
+                    <td>الأحد</td>
+                    <td>22/6/2025</td>
+                    <td>اللغة العربية</td>
+                    <td>8:00 صباحًا - 11:00 صباحًا</td>
+                    <td class="countdown" id="countdown6"></td>
+                </tr>
+                <tr id="exam7">
+                    <td>الإثنين</td>
+                    <td>23/6/2025</td>
+                    <td>الجغرافيا والتقنيات الحديثة</td>
+                    <td>8:00 صباحًا - 11:00 صباحًا</td>
+                    <td class="countdown" id="countdown7"></td>
+                </tr>
+                <tr id="exam8">
+                    <td>الثلاثاء</td>
+                    <td>24/6/2025</td>
+                    <td>الكيمياء</td>
+                    <td>8:00 صباحًا - 11:00 صباحًا</td>
+                    <td class="countdown" id="countdown8"></td>
+                </tr>
+                <tr id="exam9">
+                    <td>الأربعاء</td>
+                    <td>25/6/2025</td>
+                    <td>الدراسات الاجتماعية (هذا وطني)</td>
+                    <td>8:00 صباحًا - 11:00 صباحًا</td>
+                    <td class="countdown" id="countdown9"></td>
+                </tr>
+                <tr class="holiday">
+                    <td>الخميس</td>
+                    <td>26/6/2025</td>
+                    <td colspan="3">إجازة رأس السنة الهجرية</td>
+                </tr>
+                <tr class="holiday">
+                    <td>الجمعة</td>
+                    <td>27/6/2025</td>
+                    <td colspan="3">إجازة نهاية الأسبوع</td>
+                </tr>
+                <tr class="holiday">
+                    <td>السبت</td>
+                    <td>28/6/2025</td>
+                    <td colspan="3">إجازة نهاية الأسبوع</td>
+                </tr>
+                <tr id="exam10">
+                    <td>الأحد</td>
+                    <td>29/6/2025</td>
+                    <td>اختبارات احتياطية (إن وجدت)</td>
+                    <td>8:00 صباحًا - 11:00 صباحًا</td>
+                    <td class="countdown" id="countdown10"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <footer>
+            <p>تم إنشاء الجدول بواسطة مركز عمر بن مسعود للتعليم الأساسي بنين - جميع الحقوق محفوظة &copy; 2025</p>
+        </footer>
+    </div>
+
+    <div id="instructionsModal" class="instructions-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>تعليمات الاختبار</h2>
+            <ol>
+                <li>يجب على الطلاب الحضور قبل موعد الاختبار بـ 30 دقيقة على الأقل.</li>
+                <li>يمنع إدخال أي أجهزة إلكترونية إلى قاعة الاختبار.</li>
+                <li>يجب إحضار الأدوات الكتابية اللازمة لكل مادة.</li>
+                <li>يمنع التحدث أو التشاور أثناء الاختبار.</li>
+                <li>مدة الاختبار 3 ساعات لكل مادة.</li>
+                <li>سيتم احتساب الوقت بدقة وسيتم إعلان نهاية الوقت.</li>
+                <li>في حالة وجود أي مشكلة، يرجى إبلاغ المشرف فورًا.</li>
+                <li>الالتزام بالزي المدرسي الرسمي إلزامي.</li>
+            </ol>
+            <p>نتمنى لجميع الطلاب التوفيق والنجاح</p>
         </div>
-        
-        <div class="header-section center">
-            <img src="https://f.top4top.io/p_3438ovk2l1.jpg" alt="مدرسة عمر بن مسعود للتعليم الأساسي" class="logo">
-        </div>
-        
-        <div class="header-section">
-            <div class="date-display">
-                <div class="day-display" id="current-day">الأحد</div>
-                <div class="date-text" id="current-date">١ يونيو ٢٠٢٥</div>
-            </div>
-        </div>
-    </header>
-    
-    <!-- المحتوى الرئيسي -->
-    <main class="main-content">
-        <div class="bg-pattern"></div>
-        
-        <!-- اختيار المرحلة -->
-        <div class="grade-selector">
-            <button class="grade-btn active" data-grade="5">الصف الخامس</button>
-            <button class="grade-btn" data-grade="6">الصف السادس</button>
-            <button class="grade-btn" data-grade="7">الصف السابع</button>
-            <button class="grade-btn" data-grade="8">الصف الثامن</button>
-            <button class="grade-btn" data-grade="9">الصف التاسع</button>
-            <button class="grade-btn" data-grade="10">الصف العاشر</button>
-            <button class="grade-btn" data-grade="11">الصف الحادي عشر</button>
-        </div>
-        
-        <!-- عرض الامتحانات -->
-        <div class="exam-container" id="exam-container">
-            <!-- سيتم ملء هذا القسم ديناميكيًا -->
-        </div>
-    </main>
-    
-    <footer class="footer">
-        نظام عرض جدول الامتحانات - الفصل الدراسي الثاني ٢٠٢٤/٢٠٢٥ - مدرسة عمر بن مسعود
-    </footer>
+    </div>
 
     <script>
-        // بيانات الامتحانات حسب المواصفات المطلوبة
-        const examData = {
-            5: [
-                {
-                    subject: "الرياضيات",
-                    date: "2025/6/1",
-                    day: "الأحد",
-                    startTime: "8:00",
-                    endTime: "9:30",
-                    duration: "ساعة ونصف",
-                    status: "upcoming"
-                }
-            ],
-            6: [
-                {
-                    subject: "الرياضيات",
-                    date: "2025/6/1",
-                    day: "الأحد",
-                    startTime: "8:00",
-                    endTime: "9:30",
-                    duration: "ساعة ونصف",
-                    status: "upcoming"
-                }
-            ],
-            7: [
-                {
-                    subject: "الرياضيات",
-                    date: "2025/6/1",
-                    day: "الأحد",
-                    startTime: "8:00",
-                    endTime: "9:30",
-                    duration: "ساعة ونصف",
-                    status: "upcoming"
-                }
-            ],
-            8: [
-                {
-                    subject: "الرياضيات",
-                    date: "2025/6/1",
-                    day: "الأحد",
-                    startTime: "8:00",
-                    endTime: "9:30",
-                    duration: "ساعة ونصف",
-                    status: "upcoming"
-                }
-            ],
-            9: [
-                {
-                    subject: "الدراسات الاجتماعية",
-                    date: "2025/6/1",
-                    day: "الأحد",
-                    startTime: "8:00",
-                    endTime: "9:30",
-                    duration: "ساعة ونصف",
-                    status: "upcoming"
-                },
-                {
-                    subject: "اللغة الإنجليزية",
-                    date: "2025/6/1",
-                    day: "الأحد",
-                    startTime: "10:00",
-                    endTime: "12:00",
-                    duration: "ساعتان",
-                    status: "upcoming"
-                }
-            ],
-            10: [
-                {
-                    subject: "الدراسات الاجتماعية",
-                    date: "2025/6/1",
-                    day: "الأحد",
-                    startTime: "8:00",
-                    endTime: "10:00",
-                    duration: "ساعتان",
-                    status: "upcoming"
-                },
-                {
-                    subject: "اللغة الإنجليزية",
-                    date: "2025/6/1",
-                    day: "الأحد",
-                    startTime: "10:30",
-                    endTime: "13:00",
-                    duration: "ساعتان ونصف",
-                    status: "upcoming"
-                }
-            ],
-            11: [
-                {
-                    subject: "الرياضيات",
-                    date: "2025/6/1",
-                    day: "الأحد",
-                    startTime: "8:00",
-                    endTime: "10:30",
-                    duration: "ساعتان ونصف",
-                    status: "upcoming"
-                }
-            ]
-        };
+        // تعليمات الاختبار - عرض وإخفاء النافذة
+        const modal = document.getElementById("instructionsModal");
+        const btn = document.getElementById("instructionsBtn");
+        const span = document.getElementsByClassName("close")[0];
 
-        // تحديث الوقت والتاريخ
-        function updateDateTime() {
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // العد التنازلي للامتحانات
+        function updateCountdowns() {
             const now = new Date();
-            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-            const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-            const dayOptions = { weekday: 'long' };
-            
-            document.getElementById('current-time').textContent = now.toLocaleTimeString('ar-EG', timeOptions);
-            document.getElementById('current-date').textContent = now.toLocaleDateString('ar-EG', dateOptions);
-            document.getElementById('current-day').textContent = now.toLocaleDateString('ar-EG', dayOptions);
-        }
-        
-        // عرض الامتحانات حسب المرحلة
-        function displayExams(grade) {
-            const container = document.getElementById('exam-container');
-            const exams = examData[grade] || [];
-            
-            if (exams.length === 0) {
-                container.innerHTML = `
-                    <div class="no-exams">
-                        <i class="fas fa-calendar-check"></i>
-                        <div>لا يوجد امتحانات مسجلة لهذه المرحلة</div>
-                    </div>
-                `;
-                return;
-            }
-            
-            container.innerHTML = '';
-            
-            exams.forEach((exam, index) => {
-                const examCard = document.createElement('div');
-                examCard.className = 'exam-card';
+            const exams = [
+                { date: new Date(2025, 5, 15, 8, 0, 0), end: new Date(2025, 5, 15, 11, 0, 0), id: 1 },
+                { date: new Date(2025, 5, 16, 8, 0, 0), end: new Date(2025, 5, 16, 11, 0, 0), id: 2 },
+                { date: new Date(2025, 5, 17, 8, 0, 0), end: new Date(2025, 5, 17, 11, 0, 0), id: 3 },
+                { date: new Date(2025, 5, 18, 8, 0, 0), end: new Date(2025, 5, 18, 11, 0, 0), id: 4 },
+                { date: new Date(2025, 5, 19, 8, 0, 0), end: new Date(2025, 5, 19, 11, 0, 0), id: 5 },
+                { date: new Date(2025, 5, 22, 8, 0, 0), end: new Date(2025, 5, 22, 11, 0, 0), id: 6 },
+                { date: new Date(2025, 5, 23, 8, 0, 0), end: new Date(2025, 5, 23, 11, 0, 0), id: 7 },
+                { date: new Date(2025, 5, 24, 8, 0, 0), end: new Date(2025, 5, 24, 11, 0, 0), id: 8 },
+                { date: new Date(2025, 5, 25, 8, 0, 0), end: new Date(2025, 5, 25, 11, 0, 0), id: 9 },
+                { date: new Date(2025, 5, 29, 8, 0, 0), end: new Date(2025, 5, 29, 11, 0, 0), id: 10 }
+            ];
+
+            let activeExam = null;
+            let examInProgress = false;
+
+            exams.forEach(exam => {
+                const countdownElement = document.getElementById(`countdown${exam.id}`);
+                const examRow = document.getElementById(`exam${exam.id}`);
                 
-                // تحديد حالة الامتحان
-                const now = new Date();
-                const examDate = new Date(exam.date);
-                const [startH, startM] = exam.startTime.split(':').map(Number);
-                const [endH, endM] = exam.endTime.split(':').map(Number);
-                
-                examDate.setHours(startH, startM, 0, 0);
-                const endTime = new Date(examDate);
-                endTime.setHours(endH, endM, 0, 0);
-                
-                let status = exam.status;
-                if (now >= examDate && now <= endTime) {
-                    status = 'active';
-                } else if (now > endTime) {
-                    status = 'completed';
-                }
-                
-                examCard.innerHTML = `
-                    <h2 class="exam-title">${exam.subject}</h2>
+                // إزالة الفعالية من جميع الصفوف أولاً
+                examRow.classList.remove("exam-active");
+                countdownElement.classList.remove("timer-active");
+
+                if (now < exam.date) {
+                    // قبل موعد الامتحان
+                    const diff = exam.date - now;
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
                     
-                    <div class="exam-details">
-                        <div class="detail-box">
-                            <div class="detail-label">اليوم</div>
-                            <div class="detail-value">${exam.day}</div>
-                        </div>
-                        
-                        <div class="detail-box">
-                            <div class="detail-label">التاريخ</div>
-                            <div class="detail-value">${new Date(exam.date).toLocaleDateString('ar-EG')}</div>
-                        </div>
-                        
-                        <div class="detail-box">
-                            <div class="detail-label">وقت الاختبار</div>
-                            <div class="detail-value">${exam.startTime} - ${exam.endTime}</div>
-                        </div>
-                        
-                        <div class="detail-box">
-                            <div class="detail-label">المدة</div>
-                            <div class="detail-value">${exam.duration}</div>
-                        </div>
-                    </div>
-                    
-                    <div class="countdown-section">
-                        <div class="countdown-title">
-                            <i class="fas fa-hourglass-half"></i>
-                            <span id="countdown-title-${index}">
-                                ${status === 'active' ? 'الوقت المتبقي لانتهاء الاختبار' : 
-                                  status === 'completed' ? 'انتهى وقت الاختبار' : 'الوقت المتبقي لبدء الاختبار'}
-                            </span>
-                        </div>
-                        
-                        <div class="countdown-timer" id="countdown-${index}">
-                            <div class="countdown-box">
-                                <div id="countdown-hours-${index}">--</div>
-                                <span class="countdown-label">ساعات</span>
-                            </div>
-                            <div class="countdown-box">
-                                <div id="countdown-minutes-${index}">--</div>
-                                <span class="countdown-label">دقائق</span>
-                            </div>
-                            <div class="countdown-box">
-                                <div id="countdown-seconds-${index}">--</div>
-                                <span class="countdown-label">ثواني</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                if (status === 'active') {
-                    examCard.classList.add('exam-active');
-                }
-                
-                container.appendChild(examCard);
-                setupCountdown(index, exam.date, exam.startTime, exam.endTime, status);
-            });
-        }
-        
-        // إعداد العد التنازلي
-        function setupCountdown(index, examDate, startTime, endTime, status) {
-            const countdownTitle = document.getElementById(`countdown-title-${index}`);
-            const hoursEl = document.getElementById(`countdown-hours-${index}`);
-            const minutesEl = document.getElementById(`countdown-minutes-${index}`);
-            const secondsEl = document.getElementById(`countdown-seconds-${index}`);
-            
-            function update() {
-                const now = new Date();
-                const examStart = new Date(examDate);
-                const [startH, startM] = startTime.split(':').map(Number);
-                const [endH, endM] = endTime.split(':').map(Number);
-                
-                examStart.setHours(startH, startM, 0, 0);
-                const examEnd = new Date(examStart);
-                examEnd.setHours(endH, endM, 0, 0);
-                
-                let timeDiff, isActive = false, isCompleted = false;
-                
-                if (now < examStart) {
-                    // قبل بدء الامتحان
-                    timeDiff = examStart - now;
-                    countdownTitle.textContent = "الوقت المتبقي لبدء الاختبار";
-                } else if (now >= examStart && now <= examEnd) {
+                    countdownElement.innerHTML = `يبدأ بعد: ${days} يوم ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
+                } 
+                else if (now >= exam.date && now <= exam.end) {
                     // أثناء الامتحان
-                    timeDiff = examEnd - now;
-                    isActive = true;
-                    countdownTitle.textContent = "الوقت المتبقي لانتهاء الاختبار";
-                } else {
+                    activeExam = exam.id;
+                    examInProgress = true;
+                    const diff = exam.end - now;
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                    
+                    countdownElement.innerHTML = `الوقت المتبقي: ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
+                    examRow.classList.add("exam-active");
+                    countdownElement.classList.add("timer-active");
+                } 
+                else {
                     // بعد انتهاء الامتحان
-                    isCompleted = true;
-                    countdownTitle.textContent = "انتهى وقت الاختبار";
+                    countdownElement.innerHTML = "تم الانتهاء من الاختبار";
                 }
-                
-                if (!isCompleted) {
-                    const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-                    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+            });
+
+            // إذا لم يكن هناك امتحان نشط، نتحقق من أقرب امتحان قادم
+            if (!examInProgress) {
+                const upcomingExams = exams.filter(exam => now < exam.end);
+                if (upcomingExams.length > 0) {
+                    const nextExam = upcomingExams.reduce((prev, curr) => 
+                        prev.date < curr.date ? prev : curr);
                     
-                    hoursEl.textContent = hours.toString().padStart(2, '٠');
-                    minutesEl.textContent = minutes.toString().padStart(2, '٠');
-                    secondsEl.textContent = seconds.toString().padStart(2, '٠');
-                    
-                    if (isActive && hours < 1) {
-                        countdownTitle.classList.add('urgent');
-                    } else {
-                        countdownTitle.classList.remove('urgent');
-                    }
-                } else {
-                    hoursEl.textContent = '٠٠';
-                    minutesEl.textContent = '٠٠';
-                    secondsEl.textContent = '٠٠';
+                    const nextExamRow = document.getElementById(`exam${nextExam.id}`);
+                    nextExamRow.classList.add("exam-active");
                 }
             }
-            
-            update();
-            setInterval(update, 1000);
         }
-        
-        // تغيير المرحلة المحددة
-        document.querySelectorAll('.grade-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                displayExams(btn.dataset.grade);
-            });
-        });
-        
-        // التهيئة الأولية
-        updateDateTime();
-        displayExams('5');
-        setInterval(updateDateTime, 1000);
+
+        // تحديث العد التنازلي كل ثانية
+        updateCountdowns();
+        setInterval(updateCountdowns, 1000);
     </script>
 </body>
 </html>
